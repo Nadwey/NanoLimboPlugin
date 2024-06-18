@@ -37,6 +37,7 @@ public final class DimensionRegistry {
     private Dimension defaultDimension_1_16;
     private Dimension defaultDimension_1_18_2;
     private Dimension dimension_1_20_5;
+    private Dimension dimension_1_21;
 
     private CompoundBinaryTag codec_1_16;
     private CompoundBinaryTag codec_1_18_2;
@@ -44,6 +45,7 @@ public final class DimensionRegistry {
     private CompoundBinaryTag codec_1_19_1;
     private CompoundBinaryTag codec_1_19_4;
     private CompoundBinaryTag codec_1_20;
+    private CompoundBinaryTag codec_1_21;
     private CompoundBinaryTag oldCodec;
 
     public DimensionRegistry(ClassLoader classLoader) {
@@ -74,6 +76,10 @@ public final class DimensionRegistry {
         return codec_1_20;
     }
 
+    public CompoundBinaryTag getCodec_1_21() {
+        return codec_1_21;
+    }
+
     public CompoundBinaryTag getOldCodec() {
         return oldCodec;
     }
@@ -90,20 +96,26 @@ public final class DimensionRegistry {
         return dimension_1_20_5;
     }
 
+    public Dimension getDimension_1_21() {
+        return dimension_1_21;
+    }
+
     public void load(String def) throws IOException {
+        // On 1.16-1.16.1 different codec format
+        oldCodec = readCodecFile("/dimension/codec_old.snbt");
         codec_1_16 = readCodecFile("/dimension/codec_1_16.snbt");
         codec_1_18_2 = readCodecFile("/dimension/codec_1_18_2.snbt");
         codec_1_19 = readCodecFile("/dimension/codec_1_19.snbt");
         codec_1_19_1 = readCodecFile("/dimension/codec_1_19_1.snbt");
         codec_1_19_4 = readCodecFile("/dimension/codec_1_19_4.snbt");
         codec_1_20 = readCodecFile("/dimension/codec_1_20.snbt");
-        // On 1.16-1.16.1 different codec format
-        oldCodec = readCodecFile("/dimension/codec_old.snbt");
+        codec_1_21 = readCodecFile("/dimension/codec_1_21.snbt");
 
         defaultDimension_1_16 = getDefaultDimension(def, codec_1_16);
         defaultDimension_1_18_2 = getDefaultDimension(def, codec_1_18_2);
 
         dimension_1_20_5 = getModernDimension(def, codec_1_20);
+        dimension_1_21 = getModernDimension(def, codec_1_21);
     }
 
     private Dimension getDefaultDimension(String def, CompoundBinaryTag tag) {
@@ -152,10 +164,7 @@ public final class DimensionRegistry {
 
     private String streamToString(InputStream in) throws IOException {
         try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
-            String content = bufReader.lines()
-                    .collect(Collectors.joining("\n"));
-
-            return content;
+            return bufReader.lines().collect(Collectors.joining("\n"));
         }
     }
 }

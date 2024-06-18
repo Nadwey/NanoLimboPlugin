@@ -147,7 +147,8 @@ Symbol `X` means all minor versions.
 - [x] 1.17.X
 - [x] 1.18.X
 - [x] 1.19.X
-- [x] 1.20-1.20.6
+- [x] 1.20.X
+- [x] 1.21
 
 The server **doesn't** support snapshot versions.
 

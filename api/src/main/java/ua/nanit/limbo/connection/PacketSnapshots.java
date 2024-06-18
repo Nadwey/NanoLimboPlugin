@@ -210,16 +210,16 @@ public final class PacketSnapshots {
 
         packetRegistryData = PacketSnapshot.of(registryData);
 
-        Dimension dimension1_20_5 = server.getDimensionRegistry().getDimension_1_20_5();
+        Dimension dimension1_21 = server.getDimensionRegistry().getDimension_1_21();
         List<PacketSnapshot> packetRegistries = new ArrayList<>();
-        CompoundBinaryTag dimensionTag = dimension1_20_5.getData();
+        CompoundBinaryTag dimensionTag = dimension1_21.getData();
         for (String registryType : dimensionTag.keySet()) {
-            CompoundBinaryTag compundRegistryType = dimensionTag.getCompound(registryType);
+            CompoundBinaryTag compoundRegistryType = dimensionTag.getCompound(registryType);
 
             registryData = new PacketRegistryData();
             registryData.setDimensionRegistry(server.getDimensionRegistry());
 
-            ListBinaryTag values = compundRegistryType.getList("value");
+            ListBinaryTag values = compoundRegistryType.getList("value");
             registryData.setMetadataWriter((message, version) -> {
                 message.writeString(registryType);
 
